@@ -30,9 +30,7 @@ function getUsers(eventId, callback) {
   });
 }
 
-function reminder(user, message) {
-  if (!user) throw new Error('User not defined.');
-
+function update(message) {
   oauth.post(
     'http://api.twitter.com/1/statuses/update.json',
     settings.oauth.access_token,
@@ -46,6 +44,6 @@ function reminder(user, message) {
 
 getUsers(13366, function(event, user) {
   if (user.status === 1 && user.twitter_id) {
-    reminder(user, '@' + user.twitter_id + ' 今日は「' + event.title + '」の日です！あなたは参加人数にカウントされておりますので、もし参加できない場合は今すぐキャンセルをお願いします。お会いできるのを楽しみにしています！' + event.event_url);
+    update('@' + user.twitter_id + ' 今日は「' + event.title + '」の日です！あなたは参加人数にカウントされておりますので、もし参加できない場合は今すぐキャンセルをお願いします。お会いできるのを楽しみにしています！' + event.event_url);
   }
 });
