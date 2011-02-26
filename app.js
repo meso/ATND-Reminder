@@ -49,7 +49,6 @@ function reminder(user, message) {
 
 getUsers(13366, function(event, user) {
   if (user.status === 1 && user.twitter_id) {
-    reminder(user, 'test');
-//    reminder(user);
+    reminder(user);
   }
 });
