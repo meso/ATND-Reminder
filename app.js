@@ -1,7 +1,16 @@
 var request = require('request'),
     qs = require('querystring'),
     OAuth = require('oauth').OAuth,
-    settings = require('./settings');
+    settings = require('./settings'),
+    oauth = new OAuth(
+      'https://api.twitter.com/oauth/request_token',
+      'https://api.twitter.com/oauth/access_token',
+      settings.oauth.consumer_key,
+      settings.oauth.consumer_secret,
+      '1.0a',
+      null,
+      'HMAC-SHA1'
+    );
 
 function getUsers(eventId, callback) {
   var params = {
@@ -23,15 +32,10 @@ function getUsers(eventId, callback) {
 
 function reminder(user, message) {
   if (!user) throw new Error('User not defined.');
-  var oauth = new OAuth(
-    'https://api.twitter.com/oauth/request_token',
-    'https://api.twitter.com/oauth/access_token',
-    settings.oauth.consumer_key,
-    settings.oauth.consumer_secret,
-    '1.0a',
-    null,
-    'HMAC-SHA1'
-  );
+  if (!message) {
+    message = '@' + user.twitter_id + ' 今日は「' + event.title + '」の日です！あなたは参加人数にカウントされておりますので、もし参加できない場合は今すぐキャンセルをお願いします。お会いできるのを楽しみにしています！' + event.event_url;
+  }
+
   oauth.post(
     'http://api.twitter.com/1/statuses/update.json',
     settings.oauth.access_token,
@@ -43,9 +47,9 @@ function reminder(user, message) {
   );
 }
 
-getUsers(12891, function(event, user) {
+getUsers(13366, function(event, user) {
   if (user.status === 1 && user.twitter_id) {
-    console.log(user);
-    reminder(user, '@' + user.twitter_id + ' 今日は「' + event.title + '」の日です！あなたは参加人数にカウントされておりますので、もし参加できない場合は今すぐキャンセルをお願いします。お会いできるのを楽しみにしています！' + event.event_url);
+    reminder(user, 'test');
+//    reminder(user);
   }
 });
