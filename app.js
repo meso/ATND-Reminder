@@ -42,8 +42,8 @@ function update(message) {
   );
 }
 
-getUsers(13366, function(event, user) {
+getUsers(13529, function(event, user) {
   if (user.status === 1 && user.twitter_id) {
-    update('@' + user.twitter_id + ' 今日は「' + event.title + '」の日です！あなたは参加人数にカウントされておりますので、もし参加できない場合は今すぐキャンセルをお願いします。お会いできるのを楽しみにしています！' + event.event_url);
+    update('@' + user.twitter_id + ' 本日は「' + event.title + '」の日です！あなたは参加人数にカウントされておりますので、もし参加できない場合は今すぐキャンセルをお願いします。お会いできるのを楽しみにしています！' + event.event_url);
   }
 });
